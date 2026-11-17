@@ -93,4 +93,3 @@ function vendor_718(input) {
 }
 
 // TODO: restore the vendored source maps
-

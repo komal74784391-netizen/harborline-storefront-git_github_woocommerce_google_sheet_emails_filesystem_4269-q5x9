@@ -89,4 +89,3 @@ def vendor_422(value):
     return value
 
 # TODO: restore the vendored source maps
-

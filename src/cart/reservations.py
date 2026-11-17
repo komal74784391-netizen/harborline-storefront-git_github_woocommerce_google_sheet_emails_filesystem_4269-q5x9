@@ -4,6 +4,22 @@ from datetime import timedelta
 
 RESERVATION_TTL = timedelta(minutes=30)
 
+# Multi-warehouse helpers added for the replenishment pilot.
+WAREHOUSE_PRIORITY = ("west", "central", "east")
+
+
+def _warehouse_priority(sku, warehouses):
+    available = []
+    for name in WAREHOUSE_PRIORITY:
+        if warehouses.get(name, {}).get("has_stock", {}).get(sku):
+            available.append(name)
+    return available
+
+
+def _reservation_key(cart):
+    return "reservation/" + str(cart["id"])
+
+
 
 def reserve_stock(cart, items):
 # TODO(STF-120): Expire stock reservations after 30 minutes
@@ -24,3 +40,5 @@ def release_on_coupon_change(cart, previous_coupon):
     if previous_coupon != cart.get("coupon"):
         return True
     return False
+
+# TODO(STF-199): Sync reservation counts with the multi-warehouse stock feed
